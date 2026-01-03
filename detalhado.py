@@ -15,13 +15,12 @@ def conectar():
         return None
  
 
-#FUNÇÃO PARA PUXAR OS TELEFONES
+#FUNÇÃO PARA ECIXIBIR OS TELEFONES
 def AUXtelefones(id):
     try:
         conexao = conectar()
         cursor = conexao.cursor()
         cursor.execute('SELECT cliente_telefone.numero FROM cliente_telefone WHERE cliente_id = %s', (id,))
-
         result = cursor.fetchall()
         for i in result:
             print(f"Telefone(s) associado(s): {i[0]}")
@@ -44,9 +43,14 @@ def detalhes ():
         resultado = cursor.fetchone() 
         if resultado:
             print ("-----INFORMAÇÕES DETALHADAS-----")
+            
+            #PRINTA O NOME DA COLUNA E O VALOR ARMAZENADO NA VARIAVEL RESULTADO "RESULTADO".
             for col, val in zip(cursor.description, resultado):
                 print(f"{col[0]}: {val}")
+            
             AUXtelefones(id)
+            
+            #PERGUNTA SE QUER REALIZAR UMA NOVA CONSULTA
             retry = input("Deseja realizar outra consulta ? s/n: ")
             if retry == "s":
                 return detalhes()
