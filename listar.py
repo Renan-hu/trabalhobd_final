@@ -60,6 +60,7 @@ def cliente_selecionado():
 
 #----------------- Função de vizualizar cliente -----------------
 def visualizar_cliente():
+
     cliente = cliente_selecionado() #cria uma var que tem o valor da func escolhida
     if not cliente: #caso o cliente não tenha sido selecionado ele retorna um box que pede pra ele selecionar algo 
         messagebox.showwarning("Aviso","Selecione um cliente") 
@@ -76,6 +77,7 @@ def deleta_cliente():
     if not cliente:
         messagebox.showwarning("Aviso", "Selecione um cliente para processeguir")# mesma logica do vizualizar clientes
         return 
+
 
     if messagebox.askyesno("Confirmar", "Deseja realmente deletar este cliente?"): #abre uma box que tem as opção sim ou n (.aksyesno)
         conexao = conectar()
