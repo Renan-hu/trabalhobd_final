@@ -42,14 +42,20 @@ def listar_clientes():
         
     conexao = conectar()
     cursor = conexao.cursor()
-    cursor.execute("SELECT ID, nome, cpf, email FROM clientes")
-
+    cursor.execute(
+        "SELECT clientes.id, clientes.nome, clientes.cpf, clientes.email, "
+        "clientes.endereco, clientes.localidade, clientes.data_nasc, clientes.status, "
+        "GROUP_CONCAT(tabela_telefones.numero SEPARATOR ', ') AS telefones "
+        "FROM clientes "
+        "LEFT JOIN tabela_telefones ON clientes.id = tabela_telefones.cliente_id "
+        "GROUP BY clientes.id, clientes.nome, clientes.cpf, clientes.email, "
+        "clientes.endereco, clientes.localidade, clientes.data_nasc, clientes.status"
+        )
     for linha in cursor.fetchall():
         tabela.insert("", tk.END, values = linha) 
         
     cursor.close()
     conexao.close()
-
 #----------------- Função que da a opção de selecionar o cliente-----------------
 def cliente_selecionado():
     item = tabela.focus()# cria uma variavel linha que armazena (.focus()) tudo relacionado a linha selecionada
@@ -68,7 +74,7 @@ def visualizar_cliente():
     elif cliente: #Caso tenha sido escolhido ele abre uma mini tela que mostra os detalhes 
         messagebox.showinfo(
         "Cliente",#isso aqui é o titulo da caixa
-        f"ID: {cliente[0]}\nNome: {cliente[1]}\nCPF: {cliente[2]}\nEmail: {cliente[3]}"#isso é o resto das info
+        f"ID: {cliente[0]}\nNome: {cliente[1]}\nCPF: {cliente[2]}\nEmail: {cliente[3]}\nendereço: {cliente[4]}\nlocalidade: {cliente[5]}\nData de nascimento: {cliente[6]}\nstatus: {cliente[7]}\nTelefones: {cliente[8]}"#isso é o resto das info
     )
 
 #----------------- Função que deleta o bixos -----------------
@@ -82,6 +88,8 @@ def deleta_cliente():
     if messagebox.askyesno("Confirmar", "Deseja realmente deletar este cliente?"): #abre uma box que tem as opção sim ou n (.aksyesno)
         conexao = conectar()
         cursor = conexao.cursor()
+        
+        cursor.execute("DELETE FROM tabela_telefones WHERE cliente_id = %s", (cliente[0],))
         cursor.execute("DELETE FROM clientes WHERE id = %s", (cliente[0],))
         conexao.commit()
         cursor.close()
@@ -126,6 +134,17 @@ def editar_clientes():
         janela_editar.destroy()# tira a telinha do input
         messagebox.showinfo("Sucesso", "Cliente alterado com sucesso")# ai no final ele so fala que ta deu bom
     tk.Button(janela_editar, text="Salvar", command = salvar).pack(pady = 10) #cria o butão que salva(sem muitos comentatios)
+
+#-Ignora-
+# def adicionar_clientes():
+#     janela_add = tk.Toplevel(janela)
+#     janela_add.pack()
+#     janela_add.geometry("500x400")
+
+#     add_nome = tk.Entry(janela_add).pack()
+#     add_cpf = tk.Entry(janela_add).pack()
+#     add_email = tk.Entry(janela_add)
+
 
 #----------------- Butao -----------------
 #tem a mesma logica do frame da apple
