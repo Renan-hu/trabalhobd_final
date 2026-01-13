@@ -6,3 +6,7 @@ Renan: Usei ia para concertar um problema de conexão entre o python e o mysql, 
 
 Fernando: Ultilizei a ia, como forma de aprendizado para conseguir montar a interface do trabalho, tbm ultizei para ele dizer onde estava o erro do código, por algum motivo o meu vscode não estava apontando os erros. e ultizei 100% para criar um comando SQL que utilizava o inner Join.
 
+Alexsander: Utilizei IA para descobrir o que estava causando erros, para entender como poderia fazer certas partes do código e para compreender o código dos meus outros colegas. Utilizei ela somente como ferramenta de auxilio, nao tendo nenhuma parte do código que foi escrita por meio de copia e cola
+
+
+
